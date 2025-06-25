@@ -69,6 +69,7 @@ El proyecto está organizado siguiendo los principios de modularidad y el Screen
 ├── package-lock.json             # Bloquea las versiones de las dependencias.
 ├── package.json                  # Define el proyecto, scripts y dependencias.
 └── tsconfig.json                 # Configuración de TypeScript.
+```
 
 ## Configuración y Ejecución
 
