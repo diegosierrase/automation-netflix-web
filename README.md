@@ -1,6 +1,5 @@
 ---
 # automation-netflix-web
----
 
 Este proyecto es un framework de automatización de pruebas web robusto y escalable, diseñado para simular interacciones de usuario en la aplicación web de Netflix. Utiliza una combinación de Cucumber para la definición de escenarios de comportamiento, Serenity/JS para patrones de diseño de pruebas limpias (Screenplay Pattern) y reportes narrativos, Playwright para la interacción con el navegador y TypeScript para la implementación del código.
 
