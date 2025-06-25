@@ -1,7 +1,9 @@
 # automation-netflix-web
+---
 
 Este proyecto es un framework de automatización de pruebas web robusto y escalable, diseñado para simular interacciones de usuario en la aplicación web de Netflix. Utiliza una combinación de Cucumber para la definición de escenarios de comportamiento, Serenity/JS para patrones de diseño de pruebas limpias (Screenplay Pattern) y reportes narrativos, Playwright para la interacción con el navegador y TypeScript para la implementación del código.
 
+---
 ## Tabla de Contenidos
 
 - [Tecnologías Utilizadas](#tecnologias-utilizadas)
@@ -12,6 +14,7 @@ Este proyecto es un framework de automatización de pruebas web robusto y escala
 - [Datos de pruebas](#reporte-de-pruebas)
 - [Creado Por](#creado-por)
 
+---
 ## Tecnologías Utilizadas
 
 -   **Serenity/JS**: Un framework de automatización de pruebas full-stack para equipos ágiles. Proporciona el [Screenplay Pattern](https://serenity-js.org/handbook/design/screenplay-pattern/) para escribir pruebas de aceptación y regresión limpias, mantenibles y orientadas al negocio. También genera reportes ilustrados y narrativos que documentan lo que la aplicación hace.
@@ -23,6 +26,7 @@ Este proyecto es un framework de automatización de pruebas web robusto y escala
 -   **npm-failsafe**: Utilidad para ejecutar scripts de npm de forma segura, permitiendo que un flujo de comandos continúe incluso si uno falla, lo cual es útil en pipelines de CI/CD.
 -   **rimraf**: Utilidad para la eliminación de archivos y directorios de forma segura, utilizada para limpiar artefactos de compilación y reportes.
 
+---
 ## Estructura de Carpetas
 
 El proyecto está organizado siguiendo los principios de modularidad y el Screenplay Pattern de Serenity/JS:
@@ -71,6 +75,7 @@ El proyecto está organizado siguiendo los principios de modularidad y el Screen
 └── tsconfig.json                 # Configuración de TypeScript.
 ```
 
+---
 ## Configuración y Ejecución
 
 Sigue estos pasos para configurar y ejecutar el proyecto:
@@ -131,6 +136,7 @@ Sigue estos pasos para configurar y ejecutar el proyecto:
         npm test
         ```
 
+---
 ## Patrón de Diseño de Automatización
 
 Este framework implementa el **[Screenplay Pattern](https://serenity-js.org/handbook/design/screenplay-pattern/)** de Serenity/JS.
@@ -146,6 +152,7 @@ El Screenplay Pattern fomenta la escritura de pruebas altamente expresivas, mant
 
 Este patrón promueve la separación de intereses, la reutilización del código y una mayor legibilidad de las pruebas, haciéndolas parecer historias de usuarios.        
 
+---
 ## Reporte de Pruebas
 
 Después de ejecutar las pruebas (especialmente con `npm run test:all`, `npm run test:login-feature`, `npm run test:movies-feature` o `npm test`), se generará un reporte de Serenity BDD en la carpeta `target/site/serenity`.
@@ -159,12 +166,14 @@ Este reporte es una de las características más potentes de Serenity BDD:
 -   Relaciona los resultados de la prueba con los **requisitos** que están siendo cubiertos (aunque en este template no hay tags de requisitos explícitos, Serenity tiene la capacidad).
 -   Ofrece métricas clave sobre la ejecución de la prueba y la cobertura.
 
+---
 ## Datos de Pruebas
 
 Los datos utilizados para las pruebas se encuentran en la carpeta `tests/data/`.
 
 Se proporcionan datos de ejemplo en cada archivo CSV. Sin embargo, para poder ejecutar las pruebas exitosamente en el entorno real de Netflix, **es indispensable reemplazar estos datos de ejemplo con información real y válida de una cuenta de Netflix activa**.
 
+---
 ### `data_login.csv`
 
 Este archivo contiene las credenciales de inicio de sesión y los perfiles de usuario.
@@ -180,6 +189,7 @@ id,email,password,profileName
 * `password`: La contraseña real de la cuenta de Netflix.
 * `profileName`: El nombre del perfil que deseas seleccionar, tal como aparece exactamente en tu cuenta de Netflix (sensible a mayúsculas y minúsculas, espacios, etc.).
 
+---
 ### `data_genre_movies.csv`
 
 Este archivo contiene la información para la búsqueda y listado de películas por género.
