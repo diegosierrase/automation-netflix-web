@@ -76,7 +76,7 @@ Sigue estos pasos para configurar y ejecutar el proyecto:
 
 1.  **Clonar el Repositorio**:
     ```bash
-    git clone [https://github.com/diegosierrase/automation-netflix-web.git](https://github.com/diegosierrase/automation-netflix-web.git)
+    git clone https://github.com/diegosierrase/automation-netflix-web.git
     cd automation-netflix-web
     ```
 
