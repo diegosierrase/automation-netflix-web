@@ -173,7 +173,7 @@ Este archivo contiene las credenciales de inicio de sesión y los perfiles de us
 id,email,password,profileName
 1,user2@example.com,Password123,Profile1
 2,user2@example.com,Password123,Profile2
-
+```
 **Consideraciones importantes:**
 
 * `email`: El correo electrónico real de la cuenta de Netflix.
@@ -187,12 +187,14 @@ Este archivo contiene la información para la búsqueda y listado de películas 
 ```csv
 id,genreName,numberMovieNames
 1,Cine de intriga,3
+```
 
 **Consideraciones importantes:**
 
 * `genreName`: El nombre del género de películas, debe coincidir **exactamente** con el nombre que aparece en la interfaz de Netflix Colombia (o la región de tu cuenta). Por ejemplo: "Cine de intriga", "Películas de acción", "Series de TV", etc.
 * `numberMovieNames`: El número de nombres de películas que se desean imprimir de ese género.
 
+---
 ## Creado Por
 
 -   Diego Alexander Sierra Sepúlveda
