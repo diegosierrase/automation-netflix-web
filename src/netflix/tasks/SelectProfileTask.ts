@@ -1,4 +1,4 @@
-import { Actor, Task, Wait } from '@serenity-js/core';
+import { Actor, Task, Wait, Duration } from '@serenity-js/core';
 import { Click, isVisible, isClickable } from '@serenity-js/web';
 import { ProfileSelectionPage } from '../user_interfaces/ProfileSelectionPage';
 
@@ -16,8 +16,8 @@ export class SelectProfileTask extends Task {
 
   async performAs(actor: Actor): Promise<void> {
     await actor.attemptsTo(
-      Wait.until(ProfileSelectionPage.PROFILE_LINK_FOR(this.profileName), isVisible()),
-      Wait.until(ProfileSelectionPage.PROFILE_LINK_FOR(this.profileName), isClickable()),
+      Wait.upTo(Duration.ofSeconds(10)).until(ProfileSelectionPage.PROFILE_LINK_FOR(this.profileName), isVisible()),
+      Wait.upTo(Duration.ofSeconds(10)).until(ProfileSelectionPage.PROFILE_LINK_FOR(this.profileName), isClickable()),
       Click.on(ProfileSelectionPage.PROFILE_LINK_FOR(this.profileName))
     );
     

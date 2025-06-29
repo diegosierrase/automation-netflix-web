@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import { Navigate } from '@serenity-js/web';
 import { LoginTask } from '../tasks/LoginTask';
 import { LoginPage } from '../user_interfaces/LoginPage';
-import { WelcomeMessage } from '../questions/WelcomeMessage';
+import { MenuSettingsIsVisible } from '../questions/MenuSettingsIsVisible';
 import { MyWorld } from '../../support/World'; 
 import { CsvUtils } from '../../utils/CsvUtils';
 import { Constants } from '../../utils/Constants';
@@ -31,7 +31,7 @@ When('user enters valid credentials from id {string}', async function (this: MyW
   await this.actor.attemptsTo(LoginTask.login(userData.email, userData.password));
 });
 
-Then('user should see a welcome message {string}', async function (this: MyWorld, expectedMessage: string) {
-  const actualText = await this.actor.answer(WelcomeMessage.message());
+Then('user should see a menu {string}', async function (this: MyWorld, expectedMessage: string) {
+  const actualText = await this.actor.answer(MenuSettingsIsVisible.message());
   expect(actualText).toContain(expectedMessage);
 });

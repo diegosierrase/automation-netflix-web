@@ -4,9 +4,9 @@ import { Wait } from '@serenity-js/core';
 
 import { HomePage } from '../user_interfaces/HomePage';
 
-export class WelcomeMessage extends Question<Promise<string>> {
+export class MenuSettingsIsVisible extends Question<Promise<string>> {
   static message(): Question<Promise<string>> {
-    return new WelcomeMessage();
+    return new MenuSettingsIsVisible();
   }
 
   constructor() {
@@ -16,9 +16,9 @@ export class WelcomeMessage extends Question<Promise<string>> {
   async answeredBy(actor: Actor): Promise<string> {
 
     await actor.attemptsTo(
-      Wait.until(HomePage.HOME_LINK, isVisible())
+      Wait.until(HomePage.MENU_SETTINGS_LINK, isVisible())
     );
 
-    return await actor.answer(Text.of(HomePage.HOME_LINK));
+    return await actor.answer(Text.of(HomePage.MENU_SETTINGS_LINK));
   }
 }

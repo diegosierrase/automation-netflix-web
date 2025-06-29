@@ -23,4 +23,7 @@ export const config = {
             'progress'
         ],
     },
+    serenity: {
+    logLevel: 'debug', // Se puede cambiar 'debug' por 'info', 'warn', 'error', o 'trace'
+  }
 };

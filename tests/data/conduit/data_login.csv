@@ -1,3 +1,2 @@
-id,email,password,profileName
-1,user2@example.com,Password123,Profile1
-2,user2@example.com,Password123,Profile2
+id,email,password
+1,test@example.com,Pruebas2020!

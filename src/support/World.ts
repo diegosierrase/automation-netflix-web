@@ -1,6 +1,6 @@
 import { setWorldConstructor, World, BeforeAll, Before, After } from '@cucumber/cucumber';
 import { Browser, Page, chromium, BrowserContext } from 'playwright';
-import { configure, actorCalled } from '@serenity-js/core'; 
+import { configure, actorCalled, Duration } from '@serenity-js/core'; 
 import { Photographer, TakePhotosOfInteractions } from '@serenity-js/web';
 import { ConsoleReporter } from '@serenity-js/console-reporter';
 import { SerenityBDDReporter } from '@serenity-js/serenity-bdd';
@@ -59,20 +59,22 @@ setWorldConstructor(CustomWorld);
 BeforeAll(async function () {
 
     configure({ 
-        crew: [
-            ConsoleReporter.withDefaultColourSupport(),
+      cueTimeout: Duration.ofSeconds(10),
+      interactionTimeout: Duration.ofSeconds(10),
+      crew: [
+          ConsoleReporter.withDefaultColourSupport(),
 
-            SerenityBDDReporter.fromJSON({
-                specDirectory: './tests/features',
-            }),
+          SerenityBDDReporter.fromJSON({
+              specDirectory: './tests/features',
+          }),
 
-            ArtifactArchiver.fromJSON({
-                outputDirectory: './target/site/serenity'
-            }),
+          ArtifactArchiver.fromJSON({
+              outputDirectory: './target/site/serenity'
+          }),
 
-            Photographer.whoWill(TakePhotosOfInteractions),
-        ],
-    });
+          Photographer.whoWill(TakePhotosOfInteractions),
+      ],
+  });
 });
 
 Before(async function (this: MyWorld) {

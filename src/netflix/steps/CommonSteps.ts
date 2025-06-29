@@ -10,6 +10,7 @@ import { config } from '../../../serenity.conf';
 
 Given('user login with valid credentials and select profile from id {string}', async function (this: MyWorld, idLogin: string) {
     const environment = process.env.TARGET_ENV; 
+    const netflixLoginUrl = config.urls.netflix;
 
     if (!environment) {
         throw new Error('TARGET_ENV environment variable is not set. Cannot determine data source.');
@@ -20,8 +21,6 @@ Given('user login with valid credentials and select profile from id {string}', a
     if (!userData) {
         throw new Error(`No user data found for ID: ${idLogin} in data_login.csv`);
     }
-
-    const netflixLoginUrl = config.urls.netflix;
 
     await this.actor.attemptsTo(
         

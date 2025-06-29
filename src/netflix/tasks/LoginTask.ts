@@ -29,7 +29,7 @@ export class LoginTask extends Task {
     );
 
     await actor.attemptsTo(
-      Wait.until(ProfileSelectionPage.MANAGE_PROFILE, isVisible())
+      Wait.upTo(Duration.ofSeconds(10)).until(ProfileSelectionPage.MANAGE_PROFILE, isVisible())
     );
 
   }

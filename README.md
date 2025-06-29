@@ -91,41 +91,71 @@ Sigue estos pasos para configurar y ejecutar el proyecto:
     ```
     *Nota: `playwright` se instalará automáticamente con `npm install` y descargará los navegadores necesarios.*
 
+---
+
 3.  **Ejecutar Pruebas**:
 
-    El proyecto incluye varios scripts definidos en `package.json` para ejecutar las pruebas:
+    El proyecto incluye varios scripts definidos en `package.json` para ejecutar las pruebas, permitiendo una ejecución específica por aplicación (Netflix o Conduit) o de forma global:
 
     * **Limpiar Artefactos de Reportes**:
+        Elimina la carpeta `target/` que contiene los reportes y artefactos generados.
         ```bash
         npm run clean
         ```
 
-    * **Ejecutar todas las Features (sin limpieza ni reporte de Serenity)**:
+    * **Generar Reporte de Serenity BDD**:
+        Este comando se encarga de procesar los resultados de las pruebas (generados previamente por `cucumber-js`) y crear el reporte HTML navegable de Serenity BDD. Normalmente se ejecuta después de una ejecución de pruebas.
         ```bash
-        npm run test:execute
+        npm run serenity-report
         ```
 
-    * **Ejecutar la Feature de Login**:
-        Limpiará reportes antiguos, ejecutará `login.feature` y generará el reporte de Serenity.
-        ```bash
-        npm run test:login-feature
-        ```
+    * **Ejecutar Pruebas Específicas de Netflix**:
+        Estos comandos utilizan `npm-failsafe` para asegurar que se limpie el entorno antes de la ejecución y que el reporte de Serenity se genere incluso si las pruebas fallan.
 
-    * **Ejecutar la Feature de Películas**:
-        Limpiará reportes antiguos, ejecutará `movies.feature` y generará el reporte de Serenity.
-        ```bash
-        npm run test:movies-feature
-        ```
+        * **Ejecutar Feature de Login de Netflix**:
+            Limpia reportes, ejecuta la feature `tests/features/netflix/login.feature` y genera el reporte.
+            ```bash
+            npm run test:netflix:login
+            ```
 
-    * **Ejecutar TODAS las Features**:
-        Este comando maestro limpiará reportes antiguos, ejecutará *todas* las features (`.feature` files) encontradas en `tests/features/` y sus subcarpetas, y finalmente generará el reporte de Serenity consolidado.
+        * **Ejecutar Feature de Películas de Netflix**:
+            Limpia reportes, ejecuta la feature `tests/features/netflix/movies.feature` y genera el reporte.
+            ```bash
+            npm run test:netflix:movies
+            ```
+
+        * **Ejecutar TODAS las Features de Netflix**:
+            Limpia reportes, ejecuta todas las features bajo `tests/features/netflix/**/*.feature` y genera el reporte.
+            ```bash
+            npm run test:netflix:all
+            ```
+    ### **Prerrequisitos para Pruebas de Conduit**
+
+    **Importante**: Para poder ejecutar las pruebas de automatización para la aplicación **Conduit**, es *indispensable* que el proyecto `angular-realworld-example-app` (que contiene la aplicación web de Conduit) esté **corriendo localmente** y sea accesible.
+
+    Asegúrate de haber clonado, configurado e iniciado el proyecto `angular-realworld-example-app` siguiendo sus propias instrucciones (normalmente `npm install` y `npm start`) antes de ejecutar cualquier prueba de Conduit desde este repositorio.
+
+    El proyecto `angular-realworld-example-app` debe estar accesible en `http://localhost:4200/` para que las pruebas de Conduit puedan interactuar con él.
+
+    * **Ejecutar Pruebas Específicas de Conduit**:
+        Similar a los scripts de Netflix, pero enfocados en la aplicación Conduit.
+
+        * **Ejecutar Feature de Login de Conduit**:
+            Limpia reportes, ejecuta la feature `tests/features/conduit/login.feature` y genera el reporte.
+            ```bash
+            npm run test:conduit:login
+            ```
+
+        * **Ejecutar TODAS las Features de Conduit**:
+            Limpia reportes, ejecuta todas las features bajo `tests/features/conduit/**/*.feature` y genera el reporte.
+            ```bash
+            npm run test:conduit:all
+            ```
+
+    * **Ejecutar TODAS las Features del Proyecto (Netflix y Conduit)**:
+        Este es el comando maestro que limpia reportes, ejecuta *todas* las features (`.feature` files) encontradas en `tests/features/` y sus subcarpetas (tanto Netflix como Conduit), y finalmente genera el reporte de Serenity consolidado.
         ```bash
         npm run test:all
-        ```
-
-    * **Ejecutar solo el generador de reportes (después de una ejecución de `test:execute` o similar)**:
-        ```bash
-        npm run test:report
         ```
 
     * **Comando `test` por defecto**:
@@ -133,7 +163,6 @@ Sigue estos pasos para configurar y ejecutar el proyecto:
         ```bash
         npm test
         ```
-
 ---
 ## Patrón de Diseño de Automatización
 
@@ -153,7 +182,7 @@ Este patrón promueve la separación de intereses, la reutilización del código
 ---
 ## Reporte de Pruebas
 
-Después de ejecutar las pruebas (especialmente con `npm run test:all`, `npm run test:login-feature`, `npm run test:movies-feature` o `npm test`), se generará un reporte de Serenity BDD en la carpeta `target/site/serenity`.
+Después de ejecutar las pruebas (especialmente con `npm run test:netflix:all`, `npm run test:conduit:all`, `npm run test:all`, o cualquiera de los scripts específicos como `npm run test:netflix:login`), se generará un reporte de Serenity BDD en la carpeta `target/site/serenity`.
 
 Para ver el reporte, abre el archivo `index.html` ubicado en `target/site/serenity/index.html` en tu navegador web.
 
@@ -163,6 +192,33 @@ Este reporte es una de las características más potentes de Serenity BDD:
 -   Muestra el **flujo de la prueba** paso a paso, documentando lo que la aplicación hace.
 -   Relaciona los resultados de la prueba con los **requisitos** que están siendo cubiertos (aunque en este template no hay tags de requisitos explícitos, Serenity tiene la capacidad).
 -   Ofrece métricas clave sobre la ejecución de la prueba y la cobertura.
+
+Además de los reportes HTML, se generarán **videos de las ejecuciones de las pruebas** en la subcarpeta `target/site/serenity/video/`. Estos videos proporcionan una representación visual completa de las interacciones del navegador durante la ejecución de cada escenario.
+
+**Limpieza Automática del Directorio `target`**
+
+Cada vez que ejecutas uno de los scripts de prueba principales (como `npm run test:netflix:login`, `npm run test:all`, etc.), se inicia un proceso de limpieza automática del directorio `target/`. Este proceso es manejado por el script `clean` en el archivo `package.json` y la utilidad `rimraf`.
+
+**¿Por qué es importante esta limpieza?**
+
+1.  **Asegurar Resultados Frescos**: El directorio `target/` es donde se almacenan todos los artefactos de la ejecución de pruebas anteriores, incluyendo:
+    * Archivos JSON de resultados de Cucumber.
+    * Reportes HTML de Serenity BDD.
+    * Videos de la ejecución de Playwright.
+    * Capturas de pantalla.
+    Al eliminar estos archivos antes de cada nueva ejecución, garantizamos que los reportes y videos generados corresponden **únicamente a la ejecución actual**, evitando confusiones con resultados de pruebas pasadas o residuales.
+2.  **Evitar Contaminación de Datos**: Si no se limpiara, los resultados de una ejecución anterior podrían mezclarse con los de una nueva, falseando las métricas del reporte o incluyendo información irrelevante.
+3.  **Mantener la Consistencia**: Promueve un ambiente de pruebas predecible y consistente, lo cual es crucial para la integración continua (CI/CD) y para el diagnóstico preciso de fallos.
+
+**¿Cómo funciona?**
+
+La magia reside en el script `npm-failsafe` que se está utilizando. Por ejemplo, en el script:
+`"test:netflix:login": "npx npm-failsafe clean test:netflix:login:execute serenity-report"`
+
+* **`clean`**: Es el primer comando que `npm-failsafe` intenta ejecutar. Este script, definido como `"clean": "rimraf target"`, utiliza la utilidad `rimraf` para eliminar de forma recursiva (es decir, la carpeta y todo su contenido) del directorio `target/`.
+* **`npm-failsafe`**: Asegura que, incluso si el comando `clean` falla (por ejemplo, si la carpeta `target` no existe, aunque `rimraf` maneja esto elegantemente), el flujo de ejecución no se detenga y continúe con los siguientes scripts (`test:netflix:login:execute` y `serenity-report`).
+
+De esta manera, se garantiza que cada ejecución de las pruebas comienza con un directorio `target/` limpio, listo para albergar los nuevos resultados y artefactos.
 
 ---
 ## Datos de Pruebas
