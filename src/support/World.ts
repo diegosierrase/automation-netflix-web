@@ -1,15 +1,18 @@
-import { setWorldConstructor, World, BeforeAll } from '@cucumber/cucumber';
-import { Browser, Page, chromium } from 'playwright';
-import { configure, Actor } from '@serenity-js/core';
-import { Photographer, TakePhotosOfFailures, TakePhotosOfInteractions } from '@serenity-js/web';
+import { setWorldConstructor, World, BeforeAll, Before, After } from '@cucumber/cucumber';
+import { Browser, Page, chromium, BrowserContext } from 'playwright';
+import { configure, actorCalled } from '@serenity-js/core'; 
+import { Photographer, TakePhotosOfInteractions } from '@serenity-js/web';
 import { ConsoleReporter } from '@serenity-js/console-reporter';
 import { SerenityBDDReporter } from '@serenity-js/serenity-bdd';
 import { ArtifactArchiver } from '@serenity-js/core';
+import { BrowseTheWebWithPlaywright } from '@serenity-js/playwright'; 
+import { User } from '../common/actors/User';
 
 export interface MyWorld extends World {
   browser: Browser;
   page: Page;
-  actor: Actor;
+  actor: User;
+  context: BrowserContext;
   startBrowser(): Promise<void>;
   stopBrowser(): Promise<void>;
 }
@@ -17,7 +20,8 @@ export interface MyWorld extends World {
 class CustomWorld extends World implements MyWorld {
   public browser!: Browser;
   public page!: Page;
-  public actor!: Actor;
+  public actor!: User;
+  public context!: BrowserContext;
 
   constructor(options: any) {
     super(options);
@@ -28,17 +32,33 @@ class CustomWorld extends World implements MyWorld {
       headless: false,
       args: [ '--start-maximized' ],
     });
+
+    this.context = await this.browser.newContext({
+        recordVideo: {
+            dir: './target/site/serenity/video',
+            size: { width: 1280, height: 720 },
+        },
+        viewport: null,
+    });
+
+    this.page = await this.context.newPage();
   }
 
   async stopBrowser(): Promise<void> {
-    await this.browser.close();
+    if (this.context) {
+      await this.context.close();
+    }
+    if (this.browser) {
+      await this.browser.close();
+    }
   }
 }
 
 setWorldConstructor(CustomWorld);
 
 BeforeAll(async function () {
-    configure({
+
+    configure({ 
         crew: [
             ConsoleReporter.withDefaultColourSupport(),
 
@@ -53,4 +73,17 @@ BeforeAll(async function () {
             Photographer.whoWill(TakePhotosOfInteractions),
         ],
     });
+});
+
+Before(async function (this: MyWorld) {
+    await this.startBrowser();
+    
+    this.actor = actorCalled('Test User').whoCan(
+        BrowseTheWebWithPlaywright.usingPage(this.page)
+    ) as User;
+
+});
+
+After(async function (this: MyWorld) {
+    await this.stopBrowser();
 });

@@ -29,45 +29,43 @@ Este proyecto es un framework de automatización de pruebas web robusto y escala
 ---
 ## Estructura de Carpetas
 
-El proyecto está organizado siguiendo los principios de modularidad y el Screenplay Pattern de Serenity/JS:
+El proyecto está organizado siguiendo los principios de modularidad y el Screenplay Pattern de Serenity/JS, soportando múltiples entornos o aplicaciones (Netflix y Conduit):
 
-```bash
+```
 .
-├── reports                       # Carpeta para reportes generados (e.g., Cucumber JSON, Playwright traces), solo se visualiza después de ejecutar.
 ├── src
-│   ├── actors                    # Define los "Actors" que interactúan con la aplicación.
-│   │   ├── User.ts
-│   ├── questions                 # Define preguntas que los actores pueden hacer sobre el estado de la aplicación.
-│   │   └── WelcomeMessage.ts
-│   ├── steps                     # Implementaciones de los pasos de Cucumber.
-│   │   ├── CommonSteps.ts
-│   │   ├── LoginSteps.ts
-│   │   ├── MoviesSteps.ts
-│   │   └── ProfileSteps.ts
+│   ├── common
+│   │   └── actors                # Define los "Actors" genéricos que pueden ser usados en múltiples dominios.
+│   │       └── User.ts
+│   ├── conduit                   # Módulos específicos para la aplicación 'Conduit'.
+│   │   ├── questions             # Preguntas para la aplicación Conduit.
+│   │   ├── steps                 # Implementaciones de pasos de Cucumber para Conduit.
+│   │   ├── tasks                 # Tareas específicas para la aplicación Conduit.
+│   │   └── user_interfaces       # PageElements (locators) para la aplicación Conduit.
+│   ├── netflix                   # Módulos específicos para la aplicación 'Netflix'.
+│   │   ├── questions             # Preguntas para la aplicación Netflix.
+│   │   ├── steps                 # Implementaciones de pasos de Cucumber para Netflix.
+│   │   ├── tasks                 # Tareas específicas para la aplicación Netflix.
+│   │   └── user_interfaces       # PageElements (locators) para la aplicación Netflix.
 │   ├── support                   # Archivos de soporte para Cucumber y Serenity/JS.
-│   │   ├── Hooks.ts              # Hooks de Cucumber (Before, After, etc.).
-│   │   └── World.ts              # Configuración del "World" de Cucumber y Serenity/JS.
-│   ├── tasks                     # Define tareas complejas que los actores pueden realizar.
-│   │   ├── LoginTask.ts
-│   │   ├── PrintMovieNamesTask.ts
-│   │   ├── SelectGenreTask.ts
-│   │   ├── SelectProfileTask.ts
-│   │   └── ToggleGridViewTask.ts
-│   ├── user_interfaces           # Define los PageElements (locators) de las páginas web.
-│   │   ├── HomePage.ts
-│   │   ├── LoginPage.ts
-│   │   ├── MoviesPage.ts
-│   │   └── ProfileSelectionPage.ts
-│   └── utils                     # Utilidades o helpers comunes.
+│   │   ├── World.ts              # Configuración del "World" de Cucumber y Serenity/JS, incluyendo hooks de inicialización.
+│   │   └── Constants.ts          # (Si es global) Constantes generales.
+│   └── utils                     # Utilidades o helpers comunes para todo el proyecto.
 │       ├── Constants.ts
 │       └── CsvUtils.ts
 ├── tests
 │   ├── data                      # Archivos de datos para las pruebas (e.g., CSV).
-│   │   ├── data_genre_movies.csv
-│   │   └── data_login.csv
+│   │   ├── conduit               # Datos específicos para pruebas de Conduit.
+│   │   │   └── data_login.csv
+│   │   └── netflix               # Datos específicos para pruebas de Netflix.
+│   │       ├── data_genre_movies.csv
+│   │       └── data_login.csv
 │   └── features                  # Archivos .feature de Cucumber que describen los escenarios.
-│       ├── login.feature
-│       └── movies.feature
+│       ├── conduit               # Features para la aplicación Conduit.
+│       │   └── login.feature
+│       └── netflix               # Features para la aplicación Netflix.
+│           ├── login.feature
+│           └── movies.feature
 ├── .gitignore                    # Archivo de configuración para Git para ignorar archivos/carpetas.
 ├── cucumber.js                   # Configuración de Cucumber.js.
 ├── package-lock.json             # Bloquea las versiones de las dependencias.
